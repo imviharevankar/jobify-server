@@ -7,6 +7,7 @@ const Jobs = models.jobs;
 
 exports.create = (req, res) => {
   const { title, skills, description, timeline, location, createdBy } = req.body;
+  // Create jobs
   if (!title || !skills || !description || !timeline || !location || !createdBy) {
     return res.status(httpStatusConfig.BAD_REQUEST).send({ message: "Incomplete body" });
   }
