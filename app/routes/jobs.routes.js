@@ -6,6 +6,7 @@ module.exports = (app) => {
   const router = require("express").Router();
 
   router.post("/", jobs.create);
+  router.post("/search", jobs.filter);
   router.get("/", jobs.findAll);
   router.get("/:id", jobs.findOne)
   router.patch("/", jobs.update),

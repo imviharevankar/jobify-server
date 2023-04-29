@@ -6,24 +6,19 @@ const { generateUUID } = require("../helpers/uuid");
 const Jobs = models.jobs;
 
 exports.create = (req, res) => {
-  if (
-    !req.body.title ||
-    !req.body.title ||
-    !req.body.skills ||
-    !req.body.timeline ||
-    !req.body.description
-  ) {
+  const { title, skills, description, timeline, location } = req.body;
+  if (!title || !skills || !description || !timeline || !location || !createdBy) {
     return res.status(httpStatusConfig.BAD_REQUEST).send({ message: "Incomplete body" });
   }
 
   const jobs = new Jobs({
     jobId: generateUUID(),
-    title: req.body.title,
-    skills: req.body.skills,
-    timeline: req.body.timeline,
-    description: req.body.description,
-    category: req.body.category,
-    createdBy: req.body.createdBy,
+    title,
+    skills,
+    timeline,
+    description,
+    category,
+    createdBy,
   });
 
   jobs
@@ -98,3 +93,14 @@ exports.delete = (req, res) => {
       });
     });
 };
+
+exports.filter = (req, res) => {
+  Jobs.find({
+    skills: { $in: req.body.skills },
+    location: req.body.location,
+  })
+    .then((data) => {
+      res.status(httpStatusConfig.OK).send(data);
+    })
+    .catch((err) => res.status(500).send({ message: "error" }));
+}

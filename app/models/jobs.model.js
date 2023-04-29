@@ -11,6 +11,7 @@ const Jobs = mongoose.model(
       timeline: String,
       category: String,
       createdBy: String,
+      location: String,
     },
     {
       timestamps: true,
