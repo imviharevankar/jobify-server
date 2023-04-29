@@ -8,7 +8,7 @@ const Jobs = models.jobs;
 exports.create = (req, res) => {
   const { title, skills, description, timeline, location, createdBy, category } = req.body;
   // Create jobs
-  if (!title || !skills || !description || !timeline || !location || !createdBy || !category) {
+  if (!title || !skills.length || !description || !timeline || !location || !createdBy || !category) {
     return res.status(httpStatusConfig.BAD_REQUEST).send({ message: "Incomplete body" });
   }
 
@@ -29,6 +29,7 @@ exports.create = (req, res) => {
       res.status(httpStatusConfig.CREATED).send(null);
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).send({
         message: "Error while creating history",
       });
