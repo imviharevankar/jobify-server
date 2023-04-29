@@ -1,5 +1,5 @@
 const { verifySignUp } = require("../middlewares");
-const controller = require("../controllers/auth.controller");
+const authController = require("../controllers/auth.controller");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -9,6 +9,8 @@ module.exports = function (app) {
     );
     next();
   });
+
+  app.post("/users/search", [], authController.filter);
 
   app.post(
     "/api/auth/signup",

@@ -14,7 +14,8 @@ exports.signup = (req, res) => {
     email: userBody.email,
     password: bcrypt.hashSync(userBody.password, 8),
     country: userBody.country,
-    isClient: userBody.isClient
+    isClient: userBody.isClient,
+    profileImg: '',
   });
 
   user.save((err, user) => {

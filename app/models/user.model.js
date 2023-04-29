@@ -10,6 +10,7 @@ const User = mongoose.model(
       password: String,
       country: String,
       isClient: Boolean,
+      profileImg: String,
       // history: [
       //   {
       //     type: mongoose.Schema.Types.ObjectId,
