@@ -8,4 +8,5 @@ db.user = require("./user.model");
 db.history = require("./history.model");
 db.watchlist = require("./watchlist.model");
 
+
 module.exports = db;

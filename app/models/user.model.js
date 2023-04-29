@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
 
 const User = mongoose.model(
-  "User",
+  "USERS",
   new mongoose.Schema(
     {
-      username: String,
+      firstName: String,
+      lastName: String,
       email: String,
       password: String,
-      createdAt: Number,
+      country: String,
+      isClient: Boolean,
       history: [
         {
           type: mongoose.Schema.Types.ObjectId,
