@@ -19,6 +19,7 @@ exports.create = (req, res) => {
     description,
     category,
     createdBy,
+    location,
   });
 
   jobs
