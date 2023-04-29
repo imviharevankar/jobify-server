@@ -8,7 +8,7 @@ const User = mongoose.model(
       lastName: String,
       email: String,
       password: String,
-      country: String,
+      location: String,
       isClient: Boolean,
       profileImg: String,
       // history: [

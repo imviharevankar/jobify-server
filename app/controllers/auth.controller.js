@@ -13,7 +13,7 @@ exports.signup = (req, res) => {
     lastName: userBody.lastName,
     email: userBody.email,
     password: bcrypt.hashSync(userBody.password, 8),
-    country: userBody.country,
+    location: userBody.location,
     isClient: userBody.isClient,
     profileImg: '',
   });
@@ -28,7 +28,7 @@ exports.signup = (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      country: user.country,
+      location: userBody.location,
       isClient: user.isClient,
     }
 
@@ -66,7 +66,7 @@ exports.signin = (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      country: user.country,
+      location: userBody.location,
       isClient: user.isClient,
       createdAt: user.createdAt,
     }
