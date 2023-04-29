@@ -9,6 +9,8 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+db.mongoose.set("strictQuery", false);
+
 db.mongoose
   .connect(dbConfig.dbUri, {
     useNewUrlParser: true,
@@ -25,6 +27,7 @@ app.get("/getDetails", (req, res) => {
 require("./app/routes/auth.routes")(app);
 require("./app/routes/history.routes")(app);
 require("./app/routes/jobs.routes")(app);
+require("./app/routes/systemMaster.routes")(app);
 
 const PORT = process.env.PORT || 8800;
 

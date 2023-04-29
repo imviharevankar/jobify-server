@@ -4,7 +4,7 @@ const Jobs = mongoose.model(
   "jobs",
   new mongoose.Schema(
     {
-      id: String,
+      jobId: String,
       description: String,
       title: String,
       skills: [String],

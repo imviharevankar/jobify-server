@@ -6,8 +6,10 @@ module.exports = (app) => {
   const router = require("express").Router();
 
   router.post("/", jobs.create);
-  // router.get("/", history.findAll);
-  // router.delete("/:id", history.delete);
+  router.get("/", jobs.findAll);
+  router.get("/:id", jobs.findOne)
+  router.patch("/", jobs.update),
+    router.delete("/", jobs.delete);
 
   app.use(
     "/api/jobs",

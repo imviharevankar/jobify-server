@@ -17,7 +17,7 @@ exports.create = (req, res) => {
   }
 
   const jobs = new Jobs({
-    id: generateUUID(),
+    jobId: generateUUID(),
     title: req.body.title,
     skills: req.body.skills,
     timeline: req.body.timeline,
@@ -42,7 +42,7 @@ exports.findAll = (req, res) => {
   // let token = req.headers["x-access-token"];
   // const id = jwtDecode(token);
 
-  History.find({ uid: id?._id })
+  Jobs.find()
     .then((data) => {
       if (!data) {
         return res.status(200).send("No Watch History");
@@ -56,16 +56,41 @@ exports.findAll = (req, res) => {
     });
 };
 
-exports.delete = (req, res) => {
+
+exports.findOne = (req, res) => {
   const id = req.params.id;
-  console.log(id);
-  History.findByIdAndRemove(id)
+  Jobs.findOne({ jobId: id })
     .then((data) => {
-      if (!data) {
-        return res.status(404).send({ message: "Movie not found" });
-      } else {
-        res.send({ id });
-      }
+      console.log(data);
+      res.status(httpStatusConfig.OK).send(data);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({
+        message: "Could not delete",
+      });
+    });
+}
+
+
+exports.update = (req, res) => {
+  const id = req.body.jobId;
+  Jobs.findOneAndUpdate({ jobId: id }, req.body)
+    .then(() => {
+      res.status(httpStatusConfig.OK).send(null);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Could not delete",
+      });
+    });
+}
+
+exports.delete = (req, res) => {
+  const id = req.body.jobId;
+  Jobs.findOneAndDelete({ jobId: id })
+    .then(() => {
+      res.status(httpStatusConfig.OK).send(null);
     })
     .catch((err) => {
       res.status(500).send({
