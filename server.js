@@ -24,6 +24,7 @@ app.get("/getDetails", (req, res) => {
 });
 require("./app/routes/auth.routes")(app);
 require("./app/routes/history.routes")(app);
+require("./app/routes/jobs.routes")(app);
 
 const PORT = process.env.PORT || 8800;
 

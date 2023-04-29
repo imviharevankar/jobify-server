@@ -7,6 +7,7 @@ db.mongoose = mongoose;
 db.user = require("./user.model");
 db.history = require("./history.model");
 db.watchlist = require("./watchlist.model");
+db.jobs = require("./jobs.model");
 
 
 module.exports = db;
