@@ -6,7 +6,7 @@ const { generateUUID } = require("../helpers/uuid");
 const Jobs = models.jobs;
 
 exports.create = (req, res) => {
-  const { title, skills, description, timeline, location } = req.body;
+  const { title, skills, description, timeline, location, createdBy } = req.body;
   if (!title || !skills || !description || !timeline || !location || !createdBy) {
     return res.status(httpStatusConfig.BAD_REQUEST).send({ message: "Incomplete body" });
   }
