@@ -1,41 +1,28 @@
 const db = require("../models");
+const { decodeJwt } = require("../helpers/cipher");
+const httpStatusConfig = require("../config/httpStatus.config");
 const User = db.user;
 
-const checkDuplicateUsernameOrEmail = (req, res, next) => {
-  // Username
+const checkDuplicateEmail = (req, res, next) => {
+
+  const userBody = decodeJwt(req.body.token);
+
   User.findOne({
-    username: req.body.username,
+    email: userBody.email,
   }).exec((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
-      return;
-    }
-
+    // if (err) {
+    //   res.status(500).send({ message: err });
+    //   return;
+    //}
     if (user) {
-      return res.status(400).send({ message: "Username already exists" });
+      return res.status(httpStatusConfig.DUPLICATE_DATA).send({ message: "Account already exists" });
     }
-
-    // Email
-    User.findOne({
-      email: req.body.email,
-    }).exec((err, user) => {
-      if (err) {
-        res.status(500).send({ message: err });
-        return;
-      }
-
-      if (user) {
-        res.status(400).send("Email already exists.");
-        return;
-      }
-
-      next();
-    });
+    next();
   });
 };
 
 const verifySignUp = {
-  checkDuplicateUsernameOrEmail,
+  checkDuplicateEmail,
 };
 
 module.exports = verifySignUp;
