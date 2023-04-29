@@ -10,21 +10,21 @@ const User = mongoose.model(
       password: String,
       country: String,
       isClient: Boolean,
-      history: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "History",
-        },
-      ],
-      watchlist: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "watchlist",
-        },
-      ],
+      // history: [
+      //   {
+      //     type: mongoose.Schema.Types.ObjectId,
+      //     ref: "History",
+      //   },
+      // ],
+      // watchlist: [
+      //   {
+      //     type: mongoose.Schema.Types.ObjectId,
+      //     ref: "watchlist",
+      //   },
+      // ],
     },
     {
-      timestamps: { currentTime: () => Math.floor(Date.now() / 1000) },
+      timestamps: true,
     }
   )
 );

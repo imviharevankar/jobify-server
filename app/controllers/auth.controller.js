@@ -1,18 +1,21 @@
 const config = require("../config/auth.config");
-const db = require("../models");
-const User = db.user;
+const models = require("../models");
+const User = models.user;
 
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const { decodeJwt, encodeJwt } = require("../helpers/cipher");
+const httpStatusConfig = require("../config/httpStatus.config");
 
 exports.signup = (req, res) => {
+  const userBody = decodeJwt(req.body.token);
+  console.log(userBody);
   const user = new User({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8),
-    country: req.body.country,
-    isClient: req.body.isClient
+    firstName: userBody.firstName,
+    lastName: userBody.lastName,
+    email: userBody.email,
+    password: bcrypt.hashSync(userBody.password, 8),
+    country: userBody.country,
+    isClient: userBody.isClient
   });
 
   user.save((err, user) => {
@@ -21,31 +24,27 @@ exports.signup = (req, res) => {
       return;
     }
 
-    const token = jwt.sign(
-      {
-        _id: user._id,
-        username: user?.username,
-        email: user?.email,
-        createdAt: user?.createdAt,
-      },
-      config.secret,
-      {
-        expiresIn: 86400,
-      }
-    );
+    const tokenBody = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      country: user.country,
+      isClient: user.isClient,
+    }
 
-    res.status(200).send({
+    const token = encodeJwt(tokenBody, config.secret, 86400);
+
+    res.status(httpStatusConfig.OK).send({
       token,
     });
   });
 };
 
 exports.signin = (req, res) => {
-  console.log(req);
+  const userBody = decodeJwt(req.body.token);
   User.findOne({
-    username: req.body.username,
+    email: userBody.email,
   }).exec((err, user) => {
-    console.log("user", user);
     if (err) {
       return res.status(500).send({ message: err });
     }
@@ -54,32 +53,26 @@ exports.signin = (req, res) => {
       return res.status(404).send({ message: "Invalid User" });
     }
 
-    const isPasswordValid = bcrypt.compareSync(
-      req.body.password,
-      user.password
-    );
+    const isValidPassword = bcrypt.compareSync(userBody.password, user.password);
 
-    if (!isPasswordValid) {
+    if (!isValidPassword) {
       return res.status(401).send({
         accessToken: null,
         message: "Invalid Password",
       });
     }
 
-    const token = jwt.sign(
-      {
-        _id: user._id,
-        username: user?.username,
-        email: user?.email,
-        createdAt: user?.createdAt,
-      },
-      config.secret,
-      {
-        expiresIn: 86400,
-      }
-    );
+    const tokenBody = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      country: user.country,
+      isClient: user.isClient,
+      createdAt: user.createdAt,
+    }
+    const token = encodeJwt(tokenBody, config.secret, 86400);
 
-    res.status(200).send({
+    res.status(httpStatusConfig.OK).send({
       token,
     });
   });
