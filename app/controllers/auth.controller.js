@@ -8,7 +8,6 @@ const httpStatusConfig = require("../config/httpStatus.config");
 
 exports.signup = (req, res) => {
   const userBody = decodeJwt(req.body.token);
-  console.log(userBody);
   const user = new User({
     firstName: userBody.firstName,
     lastName: userBody.lastName,
@@ -77,3 +76,14 @@ exports.signin = (req, res) => {
     });
   });
 };
+
+exports.filter = (req, res) => {
+  User.find({
+    skills: { $in: req.body.skills },
+    location: req.body.location,
+  })
+    .then((data) => {
+      res.status(httpStatusConfig.OK).send(data);
+    })
+    .catch((err) => res.status(500).send({ message: "error" }));
+}
