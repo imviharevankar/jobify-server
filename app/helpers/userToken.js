@@ -11,6 +11,7 @@ exports.getUserToken = (user, secret, expiresIn) => {
     amountSpent: user.amountSpent,
     jobsPosted: user.jobsPosted,
     jobsAssigned: user.jobsAssigned,
+    skills: user.skills,
   }
 
   return encodeJwt(tokenBody, secret, expiresIn);

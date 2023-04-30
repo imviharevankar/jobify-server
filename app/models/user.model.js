@@ -14,6 +14,7 @@ const User = mongoose.model(
       amountSpent: Number,
       jobsPosted: [],
       jobsAssigned: [],
+      skills: [],
       // history: [
       //   {
       //     type: mongoose.Schema.Types.ObjectId,

@@ -16,6 +16,7 @@ exports.signup = (req, res) => {
     password: bcrypt.hashSync(userBody.password, 8),
     location: userBody.location,
     isClient: userBody.isClient,
+    skills: userBody.skills,
     amountEarned: 0,
     amountSpent: 0,
     jobsPosted: [],
