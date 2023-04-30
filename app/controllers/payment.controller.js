@@ -26,8 +26,8 @@ exports.verifySignature = (req, res) => {
 
   rzpInstance.validatePaymentVerification(
     {
-      "order_id": razorpay_order_id,
-      "payment_id": razorpay_payment_id,
+      razorpay_order_id,
+      razorpay_payment_id,
     },
     razorpay_signature,
     "RqQxygZY1cYJK6d2B7EkWwLX").then((data) => {
