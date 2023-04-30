@@ -10,7 +10,7 @@ module.exports = function (app) {
     next();
   });
 
-  app.post("/users/search", [], authController.filter);
+  app.post("/api/users/search", [], authController.filter);
 
   app.post(
     "/api/auth/signup",

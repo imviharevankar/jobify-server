@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const SystemMaster = mongoose.model(
-  "systemMaster",
+const Dropdown = mongoose.model(
+  "dropdown",
   new mongoose.Schema(
     {
       dropdown: String,
@@ -13,4 +13,4 @@ const SystemMaster = mongoose.model(
   )
 );
 
-module.exports = SystemMaster;
+module.exports = Dropdown;

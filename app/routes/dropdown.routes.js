@@ -1,11 +1,11 @@
 const { authJwt } = require("../middlewares");
 
 module.exports = (app) => {
-  const systemMaster = require("../controllers/systemMaster.controller");
+  const dropdown = require("../controllers/dropdown.controller");
 
   const router = require("express").Router();
 
-  router.get("/", systemMaster.findAll);
+  router.get("/", dropdown.findAll);
 
   app.use("/api/dropdown", [], router);
 };
