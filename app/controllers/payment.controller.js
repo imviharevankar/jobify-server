@@ -16,7 +16,7 @@ exports.createOrder = (req, res) => {
     if (err) {
       return res.status(httpStatusConfig.BAD_REQUEST).send({ message: "Order creation failed!" })
     } else {
-      res.status(httpStatusConfig.OK).send({ orderId: order?.id, amount: order?.amount });
+      res.status(httpStatusConfig.OK).send({ orderId: order?.id, amount: order?.amount * 100 });
     }
   })
 };
