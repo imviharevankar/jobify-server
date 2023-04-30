@@ -12,6 +12,9 @@ const Jobs = mongoose.model(
       category: String,
       createdBy: String,
       location: String,
+      amount: Number,
+      amountStatus: String,
+      deadline: Date,
     },
     {
       timestamps: true,

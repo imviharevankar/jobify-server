@@ -10,7 +10,10 @@ const User = mongoose.model(
       password: String,
       location: String,
       isClient: Boolean,
-      profileImg: String,
+      amountEarned: Number,
+      amountSpent: Number,
+      jobsPosted: [],
+      jobsAssigned: [],
       // history: [
       //   {
       //     type: mongoose.Schema.Types.ObjectId,

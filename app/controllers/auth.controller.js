@@ -5,6 +5,7 @@ const User = models.user;
 const bcrypt = require("bcryptjs");
 const { decodeJwt, encodeJwt } = require("../helpers/cipher");
 const httpStatusConfig = require("../config/httpStatus.config");
+const { getUserToken } = require("../helpers/userToken");
 
 exports.signup = (req, res) => {
   const userBody = decodeJwt(req.body.token);
@@ -15,7 +16,10 @@ exports.signup = (req, res) => {
     password: bcrypt.hashSync(userBody.password, 8),
     location: userBody.location,
     isClient: userBody.isClient,
-    profileImg: '',
+    amountEarned: 0,
+    amountSpent: 0,
+    jobsPosted: [],
+    jobsAssigned: [],
   });
 
   user.save((err, user) => {
@@ -24,15 +28,7 @@ exports.signup = (req, res) => {
       return;
     }
 
-    const tokenBody = {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      location: userBody.location,
-      isClient: user.isClient,
-    }
-
-    const token = encodeJwt(tokenBody, config.secret, 86400);
+    const token = getUserToken(user, config.secret, 86400);
 
     res.status(httpStatusConfig.OK).send({
       token,
@@ -62,16 +58,7 @@ exports.signin = (req, res) => {
       });
     }
 
-    const tokenBody = {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      location: userBody.location,
-      isClient: user.isClient,
-      createdAt: user.createdAt,
-    }
-    const token = encodeJwt(tokenBody, config.secret, 86400);
-
+    const token = getUserToken(user, config.secret, 86400);
     res.status(httpStatusConfig.OK).send({
       token,
     });
@@ -87,4 +74,18 @@ exports.filter = (req, res) => {
       res.status(httpStatusConfig.OK).send(data);
     })
     .catch((err) => res.status(500).send({ message: "error" }));
+}
+
+exports.findOne = (req, res) => {
+  const userBody = decodeJwt(req.body.token);
+  User.findOne(({
+    email: userBody.email,
+  }))
+    .then((data) => {
+      const token = getUserToken(data, config.secret, 86400);
+      res.status(httpStatusConfig.OK).send({
+        token,
+      })
+    })
+    .catch((err) => res.status(500).send({ message: JSON.stringify(err) }));
 }
