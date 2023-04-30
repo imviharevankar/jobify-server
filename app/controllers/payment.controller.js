@@ -22,14 +22,14 @@ exports.createOrder = (req, res) => {
 };
 
 exports.verifySignature = (req, res) => {
-  const { orderId, paymentId, signature } = req.body;
-  console.log(signature);
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
   rzpInstance.validatePaymentVerification(
     {
-      "order_id": orderId,
-      "payment_id": paymentId,
+      "order_id": razorpay_order_id,
+      "payment_id": razorpay_payment_id,
     },
-    signature,
+    razorpay_signature,
     "RqQxygZY1cYJK6d2B7EkWwLX").then((data) => {
       console.log(data);
       res.status(httpStatusConfig.OK).send(true)
