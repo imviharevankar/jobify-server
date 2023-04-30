@@ -28,6 +28,7 @@ require("./app/routes/auth.routes")(app);
 require("./app/routes/history.routes")(app);
 require("./app/routes/jobs.routes")(app);
 require("./app/routes/dropdown.routes")(app);
+require("./app/routes/payment.routes")(app);
 
 const PORT = process.env.PORT || 8800;
 
