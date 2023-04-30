@@ -12,6 +12,7 @@ exports.getUserToken = (user, secret, expiresIn) => {
     jobsPosted: user.jobsPosted,
     jobsAssigned: user.jobsAssigned,
     skills: user.skills,
+    createdAt: user.createdAt,
   }
 
   return encodeJwt(tokenBody, secret, expiresIn);

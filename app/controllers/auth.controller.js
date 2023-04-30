@@ -61,7 +61,7 @@ exports.signin = (req, res) => {
 
     const token = getUserToken(user, config.secret, 86400);
     res.status(httpStatusConfig.OK).send({
-      token,
+      token
     });
   });
 };
@@ -69,7 +69,7 @@ exports.signin = (req, res) => {
 exports.filter = (req, res) => {
   User.find({
     skills: { $in: req.body.skills },
-    location: req.body.location,
+    ...(req.body.location) && { location: req.body.location }
   })
     .then((data) => {
       res.status(httpStatusConfig.OK).send(data);

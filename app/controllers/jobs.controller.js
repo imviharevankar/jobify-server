@@ -100,7 +100,7 @@ exports.delete = (req, res) => {
 exports.filter = (req, res) => {
   Jobs.find({
     skills: { $in: req.body.skills },
-    location: req.body.location,
+    ...(req.body.location) && { location: req.body.location },
   })
     .then((data) => {
       res.status(httpStatusConfig.OK).send(data);
