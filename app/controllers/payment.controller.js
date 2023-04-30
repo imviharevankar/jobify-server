@@ -1,4 +1,5 @@
 const Razorpay = require("razorpay");
+const crypto = require("crypto");
 const httpStatusConfig = require("../config/httpStatus.config");
 
 const rzpInstance = new Razorpay({
@@ -24,17 +25,25 @@ exports.createOrder = (req, res) => {
 exports.verifySignature = (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
-  rzpInstance.validatePaymentVerification(
-    {
-      razorpay_order_id,
-      razorpay_payment_id,
-    },
-    razorpay_signature,
-    "RqQxygZY1cYJK6d2B7EkWwLX").then((data) => {
-      console.log(data);
-      res.status(httpStatusConfig.OK).send(true)
-    }).catch(() => {
-      res.status(500).send({ message: "Razorpay signature failed" })
+  const key_secret = 'RqQxygZY1cYJK6d2B7EkWwLX';
 
-    })
+  // STEP 8: Verification & Send Response to User
+
+  // Creating hmac object 
+  let hmac = crypto.createHmac('sha256', key_secret);
+
+  // Passing the data to be hashed
+  hmac.update(razorpay_order_id + "|" + razorpay_payment_id);
+
+  // Creating the hmac in the required format
+  const generated_signature = hmac.digest('hex');
+
+
+  if (razorpay_signature === generated_signature) {
+    res.status(httpStatusConfig.OK).json({ success: true, message: "Payment has been verified" })
+  }
+  else {
+    res.json({ success: false, message: "Payment verification failed" })
+  }
+
 }
