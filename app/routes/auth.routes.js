@@ -11,6 +11,7 @@ module.exports = function (app) {
   });
 
   app.post("/api/users/search", [], authController.filter);
+  app.post("/api/user", [], authController.findOne);
 
   app.post(
     "/api/auth/signup",
